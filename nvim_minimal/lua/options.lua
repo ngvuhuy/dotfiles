@@ -75,8 +75,13 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+-- Preselect first completion item (remove 'noselect' from default 'menuone,noinsert,noselect')
+vim.o.completeopt = 'menuone,noinsert'
+
 -- Disable line wrapping
 vim.o.wrap = false
+
+vim.cmd.colorscheme('everforest')
 
 -- Highlight max chars per line
 -- vim.o.colorcolumn = '120'

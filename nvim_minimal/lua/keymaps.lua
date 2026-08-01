@@ -101,4 +101,40 @@ vim.keymap.set('n', '<leader>yg', '"+yg_', { desc = "Copy to system clipboard, d
 vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste to system clipboard, include newline' })
 
 vim.keymap.set('i', ';j', '<C-[>')
+
+-- Search using mini.pick (replaces telescope.nvim)
+vim.keymap.set('n', '<leader>sf', MiniPick.builtin.files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sg', MiniPick.builtin.grep_live, { desc = '[S]earch by [G]rep' })
+
+-- LSP keymaps
+vim.api.nvim_create_autocmd('LspAttach', {
+  desc = 'LSP keymaps',
+  group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+  callback = function(event)
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+    end
+
+    map('K', vim.lsp.buf.hover, 'Hover Documentation')
+    map('grr', function() require('mini.extra').pickers.lsp { scope = 'references' } end, '[G]oto [R]eferences')
+  end,
+})
+
+vim.keymap.set('n', '-', MiniFiles.open)
+
+-- Fix: Clear winfixbuf on mini.files windows when explorer closes
+-- This prevents "winfixbuf is enabled" error when using ctrl-O to jump to previous file
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesExplorerClose',
+  callback = function()
+    for _, win_id in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+      local buf_id = vim.api.nvim_win_get_buf(win_id)
+      if vim.bo[buf_id].filetype == 'minifiles' then
+        vim.wo[win_id].winfixbuf = false
+      end
+    end
+  end,
+})
+
 -- vim: ts=2 sts=2 sw=2 et
