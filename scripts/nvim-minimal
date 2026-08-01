@@ -21,4 +21,4 @@ if [[ "${1:-}" == "--build" ]]; then
     "$ENGINE" build -t "$IMAGE_NAME" "$REPO_DIR"
 fi
 
-exec "$ENGINE" run --rm -it -v "$(pwd):/workspace" "$IMAGE_NAME"
+exec "$ENGINE" run --rm -it -v "$(pwd):/workspace:z" "$IMAGE_NAME"

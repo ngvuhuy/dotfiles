@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+DOTFILES_DIR="$(cd "$(dirname "$(readlink -f "$0")")" && pwd)"
 
 # --- Scripts to ~/.local/bin ---
 SCRIPTS_DIR="$DOTFILES_DIR/scripts"
