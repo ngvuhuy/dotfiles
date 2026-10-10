@@ -81,6 +81,8 @@ vim.o.completeopt = 'menuone,noinsert'
 -- Disable line wrapping
 vim.o.wrap = false
 
+vim.o.autoread = true
+
 vim.cmd.colorscheme('everforest')
 
 -- Highlight max chars per line
